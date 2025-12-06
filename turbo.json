@@ -1,11 +1,20 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalDependencies": [".env"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
+      "env": [
+        "KINDE_CLIENT_ID",
+        "KINDE_CLIENT_SECRET",
+        "KINDE_ISSUER_URL",
+        "KINDE_SITE_URL",
+        "KINDE_POST_LOGOUT_REDIRECT_URL",
+        "KINDE_POST_LOGIN_REDIRECT_URL"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
