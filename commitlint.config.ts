@@ -2,6 +2,7 @@ const config = {
   // Use the standard Conventional Commits configuration
   extends: ['@commitlint/config-conventional'],
   rules: {
+    'subject-case': [0, 'always', []],
     // Optionally add custom rules, e.g., requiring a scope
     // 'scope-case': [2, 'always', 'kebab-case'],
     // 'type-enum': [
