@@ -28,11 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): JSX.Element {
   return (
-    <AuthProvider>
-      <html lang='en' suppressHydrationWarning>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+    <html lang='en' suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <AuthProvider>
           <ThemeProvider
             attribute='class'
             defaultTheme='system'
@@ -41,8 +41,8 @@ export default function RootLayout({
           >
             {children}
           </ThemeProvider>
-        </body>
-      </html>
-    </AuthProvider>
+        </AuthProvider>
+      </body>
+    </html>
   );
 }
