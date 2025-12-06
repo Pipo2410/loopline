@@ -67,6 +67,8 @@ export const nextJsConfig = [
     rules: {
       '@stylistic/indent': ['error', 2],
       '@stylistic/jsx-sort-props': 'error',
+      '@stylistic/jsx-quotes': ['error', 'prefer-single'],
+      '@stylistic/quotes': ['error', 'single'],
     },
   },
 ]
