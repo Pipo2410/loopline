@@ -1,3 +1,4 @@
+import '@/lib/orpc.server'; // pre-rendering for ssr
 import '@workspace/ui/globals.css';
 
 import { ThemeProvider } from '@workspace/ui/lib/theme-provider';
