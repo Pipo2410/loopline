@@ -1,8 +1,8 @@
 'use client';
 
 import { KindeProvider } from '@kinde-oss/kinde-auth-nextjs';
-import { ReactNode } from 'react';
+import { FC, PropsWithChildren } from 'react';
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => (
+export const AuthProvider: FC<PropsWithChildren> = ({ children }) => (
   <KindeProvider>{children}</KindeProvider>
 );
