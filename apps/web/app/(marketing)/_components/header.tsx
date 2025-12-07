@@ -111,7 +111,7 @@ export const HeroHeader: React.FC = () => {
                         className={buttonVariants({
                           size: 'sm',
                         })}
-                        href='/dashboard'
+                        href='/workspace'
                       >
                         <span>Dashboard</span>
                       </Link>

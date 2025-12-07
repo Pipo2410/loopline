@@ -1,12 +1,12 @@
-import { HeroHeader } from '@/app/(marketing)/_components/header'
-import { HeroSection } from '@/app/(marketing)/_components/hero-section'
+import { HeroHeader } from '@/app/(marketing)/_components/header';
+import { HeroSection } from '@/app/(marketing)/_components/hero-section';
 
-export default function Home() {
-  return (
-    <div>
-      <HeroHeader />
+const Home: React.FC = () => (
+  <div>
+    <HeroHeader />
 
-      <HeroSection />
-    </div>
-  )
-}
+    <HeroSection />
+  </div>
+);
+
+export default Home;
