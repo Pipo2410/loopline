@@ -7,6 +7,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { JSX } from 'react';
 
 import { AuthProvider } from '@/components/AuthProvider';
+import { Providers } from '@/lib/providers';
 
 const geistSans = Geist({
   subsets: ['latin'],
@@ -40,7 +41,7 @@ export default function RootLayout({
             disableTransitionOnChange
             enableSystem
           >
-            {children}
+            <Providers>{children}</Providers>
           </ThemeProvider>
         </body>
       </html>
