@@ -1,6 +1,7 @@
 import '@/lib/orpc.server'; // pre-rendering for ssr
 import '@workspace/ui/globals.css';
 
+import { Toaster } from '@workspace/ui/components/sonner';
 import { ThemeProvider } from '@workspace/ui/lib/theme-provider';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
@@ -42,6 +43,7 @@ export default function RootLayout({
             enableSystem
           >
             <Providers>{children}</Providers>
+            <Toaster closeButton position='top-center' />
           </ThemeProvider>
         </body>
       </html>

@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { createRouterClient } from '@orpc/server';
+import { ClientContext, createRouterClient } from '@orpc/server';
 import { headers } from 'next/headers';
 
 import { router } from '@/app/router';
@@ -13,8 +13,8 @@ globalThis.$client = createRouterClient(router, {
    * only include context that's safe to reuse globally.
    * For per-request context, use middleware context or pass a function as the initial context.
    */
-  context: async ({ request }) => ({
-    headers: await headers(), // provide headers if initial context required
-    request,
+  context: async (clientContext: ClientContext) => ({
+    headers: await headers(),
+    request: clientContext.request,
   }),
 });

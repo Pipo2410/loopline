@@ -1,5 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@workspace/ui/components/button';
 import {
   Dialog,
@@ -26,11 +27,14 @@ import {
 import { Plus } from 'lucide-react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
-import { workspaceSchema } from '@/app/schemas/workspace';
+import { workspaceSchema, WorkspaceSchemaType } from '@/app/schemas/workspace';
+import { orpc } from '@/lib/orpc';
 
 export const CreateWorkspace: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const form = useForm({
     defaultValues: {
@@ -39,7 +43,29 @@ export const CreateWorkspace: React.FC = () => {
     resolver: zodResolver(workspaceSchema),
   });
 
-  const onSubmit = (): void => {};
+  const createWorkspaceMutation = useMutation(
+    orpc.workspace.create.mutationOptions({
+      onError: () => {
+        toast.error('Failed to create workspace, try again!');
+      },
+      onSuccess: (newWorkspace) => {
+        toast.success(
+          `Workspace ${newWorkspace.workspaceName} created successfully`,
+        );
+
+        queryClient.invalidateQueries({
+          queryKey: orpc.workspace.list.queryKey(),
+        });
+
+        form.reset();
+        setOpen(false);
+      },
+    }),
+  );
+
+  const onSubmit = (values: WorkspaceSchemaType): void => {
+    createWorkspaceMutation.mutate(values);
+  };
 
   return (
     <Dialog onOpenChange={setOpen} open={open}>
@@ -78,7 +104,14 @@ export const CreateWorkspace: React.FC = () => {
                   </FormItem>
                 )}
               />
-              <Button type='submit'>Create Workspace</Button>
+              <Button
+                disabled={createWorkspaceMutation.isPending}
+                type='submit'
+              >
+                {createWorkspaceMutation.isPending
+                  ? 'Creating...'
+                  : 'Create Workspace'}
+              </Button>
             </form>
           </Form>
         </DialogContent>
