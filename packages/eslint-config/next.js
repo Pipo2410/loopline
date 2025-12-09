@@ -65,10 +65,10 @@ export const nextJsConfig = [
       '@stylistic': stylistic,
     },
     rules: {
-      '@stylistic/indent': ['warn', 2],
       '@stylistic/jsx-sort-props': 'error',
       '@stylistic/jsx-quotes': ['error', 'prefer-single'],
       '@stylistic/quotes': ['error', 'single'],
+      '@stylistic/semi': 'off',
     },
   },
 ]
