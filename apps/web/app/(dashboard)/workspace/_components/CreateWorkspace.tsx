@@ -1,5 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { isDefinedError } from '@orpc/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@workspace/ui/components/button';
 import {
@@ -45,7 +46,16 @@ export const CreateWorkspace: React.FC = () => {
 
   const createWorkspaceMutation = useMutation(
     orpc.workspace.create.mutationOptions({
-      onError: () => {
+      onError: (error) => {
+        if (isDefinedError(error)) {
+          if (error.code === 'RATE_LIMITED') {
+            toast.error(error.message);
+            return;
+          }
+          toast.error(error.message);
+          return;
+        }
+
         toast.error('Failed to create workspace, try again!');
       },
       onSuccess: (newWorkspace) => {
