@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from '@workspace/ui/components/dropdown-menu';
 import { CreditCard, LogOutIcon, User } from 'lucide-react';
+import Image from 'next/image';
 import React from 'react';
 
 import { getAvatar } from '@/lib/get-avatar';
@@ -40,10 +41,10 @@ export const UserNav: React.FC = () => {
           variant='outline'
         >
           <Avatar>
-            <AvatarImage
+            <Image
               alt='User Image'
               className='object-cover'
-              // user.email => users only auth with email or OAuth = always have email
+              fill
               src={getAvatar(user.picture, user.email!)}
             />
             <AvatarFallback>
@@ -67,6 +68,7 @@ export const UserNav: React.FC = () => {
               className='object-cover'
               src={getAvatar(user.picture, user.email!)}
             />
+            jfkdjkfjdk
             <AvatarFallback>
               {user.given_name
                 ?.slice(FIRST_POSITION, END_POSITION)
