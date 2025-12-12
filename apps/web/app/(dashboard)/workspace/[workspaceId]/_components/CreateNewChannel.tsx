@@ -21,6 +21,7 @@ import {
 } from '@workspace/ui/components/form';
 import { Input } from '@workspace/ui/components/input';
 import { Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -35,6 +36,7 @@ import { orpc } from '@/lib/orpc';
 export const CreateNewChannel: React.FC = () => {
   const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const form = useForm({
     defaultValues: {
@@ -61,6 +63,9 @@ export const CreateNewChannel: React.FC = () => {
 
         form.reset();
         setOpen(false);
+        router.push(
+          `/workspace/${newChannel.workspaceId}/channel/${newChannel.id}`,
+        );
       },
     }),
   );

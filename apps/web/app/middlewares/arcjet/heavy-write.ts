@@ -8,7 +8,7 @@ const buildStandardAj = () =>
   arcjet.withRule(
     slidingWindow({
       interval: '1m',
-      max: 2,
+      max: 5,
       mode: 'LIVE',
     }),
   );
