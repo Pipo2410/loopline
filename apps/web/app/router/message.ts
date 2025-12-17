@@ -14,6 +14,11 @@ import { standardSecurityMiddleware } from '../middlewares/arcjet/standard';
 import { writeSecurityMiddleware } from '../middlewares/arcjet/write';
 import { createMessageSchema } from '../schemas/message';
 
+const MIN_LIMIT = 1;
+const ARRAY_LAST_ITEM_INDEX_OFFSET = 1;
+const MAX_LIMIT = 100;
+const DEFAULT_LIMIT = 30;
+
 export const createMessage = base
   .use(requiredAuthMiddleware)
   .use(requiredWorkspaceMiddleware)
@@ -67,8 +72,19 @@ export const listMessages = base
     summary: 'List all messages',
     tags: ['Messages'],
   })
-  .input(z.object({ channelId: z.string() }))
-  .output(z.array(z.custom<Message>()))
+  .input(
+    z.object({
+      channelId: z.string(),
+      cursor: z.string().optional(),
+      limit: z.number().min(MIN_LIMIT).max(MAX_LIMIT).optional(),
+    }),
+  )
+  .output(
+    z.object({
+      items: z.array(z.custom<Message>()),
+      nextCursor: z.string().optional(),
+    }),
+  )
   .handler(async ({ input, context, errors }) => {
     const channel = await prisma.channel.findFirst({
       where: {
@@ -81,14 +97,29 @@ export const listMessages = base
       throw errors.FORBIDDEN();
     }
 
+    const limit = input.limit ?? DEFAULT_LIMIT;
+
     const messages = await prisma.message.findMany({
-      orderBy: {
-        createdAt: 'desc',
-      },
       where: {
         channelId: input.channelId,
       },
+      ...(input.cursor
+        ? {
+            cursor: { id: input.cursor },
+            skip: 1,
+          }
+        : {}),
+      orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+      take: limit,
     });
 
-    return messages;
+    const nextCursor =
+      messages.length === limit
+        ? messages[messages.length - ARRAY_LAST_ITEM_INDEX_OFFSET]?.id
+        : undefined;
+
+    return {
+      items: messages,
+      nextCursor,
+    };
   });
