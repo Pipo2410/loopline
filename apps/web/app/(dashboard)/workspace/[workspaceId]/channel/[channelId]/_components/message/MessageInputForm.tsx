@@ -41,7 +41,7 @@ export const MessageInputForm: React.FC<iAppProps> = ({ channelId }) => {
       onSuccess: () => {
         form.reset();
         queryClient.invalidateQueries({
-          queryKey: orpc.message.list.queryKey({ input: { channelId } }),
+          queryKey: orpc.message.list.key(),
         });
         return toast.success('Message sent successfully');
       },
